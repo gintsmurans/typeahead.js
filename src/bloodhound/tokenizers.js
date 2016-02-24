@@ -27,18 +27,13 @@ var tokenizers = (function() {
   }
 
   function getObjTokenizer(tokenizer) {
-    return function setKey(key1/*, key2, ... */) {
-      var args;
-      if (_.isArray(key1)) {
-        args = key1;
-      } else {
-        args = [].slice.call(arguments, 0);
-      }
+    return function setKey(keys) {
+      keys = _.isArray(keys) ? keys : [].slice.call(arguments, 0);
 
       return function tokenize(o) {
         var tokens = [];
 
-        _.each(args, function(k) {
+        _.each(keys, function(k) {
           tokens = tokens.concat(tokenizer(_.toStr(o[k])));
         });
 
