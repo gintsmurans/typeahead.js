@@ -40,7 +40,7 @@ var Dataset = (function() {
 
     www.mixin(this);
 
-    this.highlight = !!o.highlight;
+    this.highlight = o.highlight;
     this.name = o.name || nameGenerator();
 
     this.limit = o.limit || 5;
@@ -196,11 +196,15 @@ var Dataset = (function() {
         fragment.appendChild($el[0]);
       });
 
-      this.highlight && highlight({
-        className: this.classes.highlight,
-        node: fragment,
-        pattern: query
-      });
+      if (typeof this.highlight == 'function') {
+        this.highlight(query, fragment);
+      } else {
+        this.highlight && highlight({
+          className: this.classes.highlight,
+          node: fragment,
+          pattern: query
+        });
+      }
 
       return $(fragment);
     },
